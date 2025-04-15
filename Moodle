@@ -10,8 +10,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     git clone git://git.moodle.org/moodle.git && cd moodle && \
-    git branch --track MOODLE_405_STABLE origin/MOODLE_405_STABLE && \
-    git checkout MOODLE_405_STABLE && \
+    git branch --track MOODLE_401_STABLE origin/MOODLE_401_STABLE && \
+    git checkout MOODLE_401_STABLE && \
     cp -rf ./* /var/www/html/
 
 # Set PHP settings for Moodle: max_input_vars and OPcache
