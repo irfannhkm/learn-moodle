@@ -314,8 +314,8 @@ Masuk sebagai Admin -> Site Administration -> Appearance -> Themes -> Theme Sett
 </details>
 
 <details>
-<summary><b>Apakah bisa integrasi dengan LDAP/SSO?</b></summary>
-Ya, Moodle mendukung LDAP, OAuth2, CAS dan protokol SSO lainnya
+<summary><b>Apakah bisa integrasi dengan SSO Keyloak?</b></summary>
+Ya, Moodle mendukung OpenId Connect LDAP, OAuth2, CAS dan protokol SSO lainnya
 </details>
 
 <details>

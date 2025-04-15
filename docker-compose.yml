@@ -10,7 +10,18 @@ services:
     volumes:
       - moodledata:/var/www/moodledata
       - moodlefile:/var/www/html
+    networks:
+      - bridge
+      - proxy
 
 volumes:
   moodledata:
   moodlefile:
+
+networks:
+  bridge:  
+    name: bridge
+    external: true
+  proxy:
+    name: proxy
+    external: true
