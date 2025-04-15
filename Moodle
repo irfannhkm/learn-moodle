@@ -1,5 +1,5 @@
 # Use the official PHP 8.3 image as a base
-FROM php:8.3-apache
+FROM php:7.4-apache
 
 # Install necessary extensions, Apache mod_rewrite, Composer, PostgreSQL extension, and OPcache
 RUN apt-get update && \
