@@ -11,7 +11,6 @@ services:
       - moodledata:/var/www/moodledata
       - moodlefile:/var/www/html
     networks:
-      - bridge
       - proxy
 
 volumes:
