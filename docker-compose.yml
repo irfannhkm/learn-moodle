@@ -19,9 +19,6 @@ volumes:
   moodlefile:
 
 networks:
-  bridge:  
-    name: bridge
-    external: true
   proxy:
     name: proxy
     external: true
