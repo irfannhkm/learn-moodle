@@ -24,6 +24,8 @@ RUN echo "max_input_vars=5000" >> /usr/local/etc/php/conf.d/docker-php-moodle.in
     echo "opcache.revalidate_freq=60" >> /usr/local/etc/php/conf.d/docker-php-opcache.ini && \
     echo "opcache.validate_timestamps=1" >> /usr/local/etc/php/conf.d/docker-php-opcache.ini
 
+COPY php.ini /usr/local/etc/php/php.ini
+
 # Create moodledata directory
 RUN mkdir -p /var/www/moodledata
 
@@ -31,7 +33,7 @@ RUN mkdir -p /var/www/moodledata
 WORKDIR /var/www/html
 
 # Set the correct permissions
-RUN chown -R www-data:www-data /var/www/ && chmod -R 755 /var/www
-
+RUN chown -R www-data:www-data /var/www/
+RUN chmod -R 755 /var/www/html
 # Expose port 80
 EXPOSE 80
