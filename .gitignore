@@ -1,0 +1,200 @@
+# Moodle Learn Project - Git Ignore File
+
+# ==========================================
+# Environment & Configuration Files
+# ==========================================
+.env
+.env.local
+.env.production
+.env.staging
+.env.development
+*.env
+/gcs/service-account.json
+
+# ==========================================
+# Docker & Container Files
+# ==========================================
+# Docker volumes and data
+/postgres-data/
+/pgadmin-data/
+/keycloak-data/
+/moodledata/
+/redis-data/
+
+# Docker logs
+*.log
+docker-compose.override.yml
+
+# ==========================================
+# Moodle Specific Files
+# ==========================================
+# Moodle config files with sensitive data
+/moodle/config.php
+/moodle/config-dist.php
+
+# Moodle data directory
+moodledata/
+backup/
+cache/
+temp/
+sessions/
+
+# Moodle vendor and dependencies
+/moodle/vendor/
+/moodle/node_modules/
+
+# ==========================================
+# Database Files
+# ==========================================
+# PostgreSQL data files
+*.sql
+*.dump
+*.backup
+/db-backups/
+/database-backups/
+
+# ==========================================
+# AI & API Keys
+# ==========================================
+# Service account files
+/gcs/service-account.json
+/gcs/*.json
+service-account*.json
+
+# API key files
+api-keys.txt
+credentials.json
+secrets.json
+
+# ==========================================
+# SSL Certificates
+# ==========================================
+*.pem
+*.key
+*.crt
+*.cert
+/ssl/
+/certificates/
+
+# ==========================================
+# IDE & Editor Files
+# ==========================================
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# PhpStorm
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-*
+
+# Vim
+*.swp
+*.swo
+*~
+
+# ==========================================
+# OS Generated Files
+# ==========================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# ==========================================
+# Temporary & Cache Files
+# ==========================================
+# General temp files
+*.tmp
+*.temp
+*.cache
+/tmp/
+/temp/
+
+# PHP temp files
+*.php~
+*.phps
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==========================================
+# Build & Distribution Files
+# ==========================================
+/dist/
+/build/
+/out/
+
+# ==========================================
+# Testing & Coverage Files
+# ==========================================
+/coverage/
+/.nyc_output/
+phpunit.xml
+*.coverage
+
+# ==========================================
+# Logs & Monitoring
+# ==========================================
+*.log
+logs/
+/var/log/
+
+# ==========================================
+# Custom Project Files
+# ==========================================
+# Custom scripts (if any contain sensitive data)
+deploy-production.sh
+migrate-production.sh
+
+# Personal notes
+notes.txt
+todo.txt
+README-personal.md
+
+# ==========================================
+# Third Party Tools
+# ==========================================
+# Composer
+/vendor/
+composer.lock
+
+# NPM
+package-lock.json
+
+# Terraform (if used)
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# ==========================================
+# Archive Files
+# ==========================================
+*.zip
+*.tar.gz
+*.rar
+*.7z

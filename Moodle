@@ -1,5 +1,5 @@
 # Use the official PHP 8.3 image as a base
-FROM php:7.4-apache
+FROM php:8.3-apache
 
 # Install necessary extensions, Apache mod_rewrite, Composer, PostgreSQL extension, and OPcache
 RUN apt-get update && \
@@ -10,8 +10,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     git clone git://git.moodle.org/moodle.git && cd moodle && \
-    git branch --track MOODLE_401_STABLE origin/MOODLE_401_STABLE && \
-    git checkout MOODLE_401_STABLE && \
+    git branch --track MOODLE_500_STABLE origin/MOODLE_500_STABLE && \
+    git checkout MOODLE_500_STABLE && \
     cp -rf ./* /var/www/html/
 
 # Set PHP settings for Moodle: max_input_vars and OPcache

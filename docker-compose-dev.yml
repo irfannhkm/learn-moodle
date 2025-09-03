@@ -1,0 +1,64 @@
+services:
+  moodleapp:
+    build:
+      context: .
+      dockerfile: Moodle
+    image: moodle-web:1.0
+    container_name: moodle-web
+    restart: unless-stopped
+    ports:
+      - ${MOODLE_PORT:-2080}:80
+    volumes:
+      - moodledata:/var/www/moodledata
+      - moodlefile:/var/www/html
+    environment:
+      - MOODLE_DB_TYPE=pgsql
+      - MOODLE_DB_HOST=postgres
+      - MOODLE_DB_NAME=${POSTGRES_DB:-moodle}
+      - MOODLE_DB_USER=${POSTGRES_USER:-moodle}
+      - MOODLE_DB_PASS=${POSTGRES_PASSWORD}
+    networks:
+      - proxy
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: moodle-postgres
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-moodle}
+      - POSTGRES_USER=${POSTGRES_USER:-moodle}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - proxy
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: moodle-pgadmin
+    restart: unless-stopped
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL:-admin@example.com}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - proxy
+    depends_on:
+      - postgres
+
+volumes:
+  moodledata:
+  moodlefile:
+  postgres_data:
+  pgadmin_data:
+
+networks:
+  proxy:
+    name: proxy
+    external: true

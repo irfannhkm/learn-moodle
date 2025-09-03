@@ -5,6 +5,7 @@ services:
       dockerfile: Moodle
     image: moodle-web:1.0
     container_name: moodle-web
+    restart: unless-stopped
     ports:
       - ${MOODLE_PORT:-2080}:80
     volumes:
