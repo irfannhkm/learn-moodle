@@ -3,8 +3,8 @@ services:
     build:
       context: .
       dockerfile: Moodle
-    image: moodle-web:1.0
-    container_name: moodle-web
+    image: moodle-web:5.0
+    container_name: moodle-learn
     restart: unless-stopped
     ports:
       - ${MOODLE_PORT:-2080}:80
