@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Moodle
     image: moodle-web:5.0
-    container_name: moodle-learn
+    container_name: moodle-web
     restart: unless-stopped
     ports:
       - ${MOODLE_PORT:-2080}:80
