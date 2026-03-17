@@ -6,19 +6,21 @@ services:
     # image: moodle-web:1.0
     container_name: moodle-web
     restart: unless-stopped
+
     ports:
-      - ${MOODLE_PORT:-2080}:80
+      - "${MOODLE_PORT:-2080}:80"
+
     volumes:
       - moodledata:/var/www/moodledata
       - moodlefile:/var/www/html
+
     networks:
-      - proxy
+      - proxy-tier
 
 volumes:
   moodledata:
   moodlefile:
 
 networks:
-  proxy:
-    name: proxy
+  proxy-tier:
     external: true
