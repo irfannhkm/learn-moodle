@@ -2,7 +2,7 @@ services:
   moodleapp:
     build:
       context: .
-      dockerfile: Moodle
+      dockerfile: Dockerfile
     # image: moodle-web:1.0
     container_name: moodle-web
     restart: unless-stopped
@@ -11,14 +11,44 @@ services:
     volumes:
       - moodledata:/var/www/moodledata
       - moodlefile:/var/www/html
+    depends_on:
+      - redis
     networks:
-      - proxy
+      - proxy-tier
+
+  cron:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: moodle-cron
+    restart: unless-stopped
+    command: sh -c "while true; do php /var/www/html/admin/cli/cron.php; sleep 60; done"
+    volumes:
+      - moodledata:/var/www/moodledata
+      - moodlefile:/var/www/html
+    depends_on:
+      - moodleapp
+      - redis
+    networks:
+      - proxy-tier
+
+  redis:
+    image: redis:7-alpine
+    container_name: moodle-redis
+    restart: unless-stopped
+    command: ["redis-server", "--port", "${REDIS_PORT:-6099}"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "-p", "${REDIS_PORT:-6099}", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - proxy-tier
 
 volumes:
   moodledata:
   moodlefile:
 
 networks:
-  proxy:
-    name: proxy
+  proxy-tier:
     external: true

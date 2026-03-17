@@ -201,6 +201,30 @@ opcache.max_accelerated_files=20000
 opcache.revalidate_freq=0  # Untuk production
 ```
 
+### Redis untuk Session dan Cache Moodle
+
+Tambahkan konfigurasi berikut ke `config.php` Moodle (file ini dibuat setelah instalasi awal):
+
+```php
+$CFG->session_handler_class = '\\core\\session\\redis';
+$CFG->session_redis_host = 'moodle-redis';
+$CFG->session_redis_port = 6099;
+$CFG->session_redis_database = 0;
+$CFG->session_redis_prefix = 'moodle_sess_';
+$CFG->session_redis_acquire_lock_timeout = 120;
+$CFG->session_redis_lock_expire = 7200;
+
+$CFG->cachestore_redis_server = 'moodle-redis';
+$CFG->cachestore_redis_port = 6099;
+```
+
+Jika Moodle berada di belakang reverse proxy HTTPS, tambahkan juga:
+
+```php
+$CFG->sslproxy = true;
+$CFG->cookiesecure = true;
+```
+
 ### Menyesuaikan PHP Memory Limit
 
 ```bash

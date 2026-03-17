@@ -2,7 +2,7 @@ services:
   moodleapp:
     build:
       context: .
-      dockerfile: Moodle
+      dockerfile: Dockerfile
     image: moodle-web:1.0
     container_name: moodle-web
     restart: unless-stopped
@@ -17,15 +17,43 @@ services:
       - MOODLE_DB_NAME=${POSTGRES_DB:-moodle}
       - MOODLE_DB_USER=${POSTGRES_USER:-moodle}
       - MOODLE_DB_PASS=${POSTGRES_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST:-moodle-redis}
+      - REDIS_PORT=${REDIS_PORT:-6099}
     networks:
-      - proxy
+      - proxy-tier
     depends_on:
       - postgres
+      - redis
+
+  cron:
+    image: moodle-web:1.0
+    container_name: moodle-cron
+    restart: unless-stopped
+    command: sh -c "while true; do php /var/www/html/admin/cli/cron.php; sleep 60; done"
+    volumes:
+      - moodledata:/var/www/moodledata
+      - moodlefile:/var/www/html
+    depends_on:
+      - moodleapp
+      - postgres
+      - redis
+    networks:
+      - proxy-tier
 
   postgres:
     image: postgres:17-alpine
     container_name: moodle-postgres
     restart: unless-stopped
+    command:
+      - postgres
+      - -c
+      - shared_buffers=256MB
+      - -c
+      - work_mem=16MB
+      - -c
+      - maintenance_work_mem=128MB
+      - -c
+      - effective_cache_size=512MB
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./postgres-init:/docker-entrypoint-initdb.d
@@ -34,7 +62,20 @@ services:
       - POSTGRES_USER=${POSTGRES_USER:-moodle}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     networks:
-      - proxy
+      - proxy-tier
+
+  redis:
+    image: redis:7-alpine
+    container_name: moodle-redis
+    restart: unless-stopped
+    command: ["redis-server", "--port", "${REDIS_PORT:-6099}"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "-p", "${REDIS_PORT:-6099}", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - proxy-tier
 
   pgadmin:
     image: dpage/pgadmin4
@@ -48,7 +89,7 @@ services:
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     networks:
-      - proxy
+      - proxy-tier
     depends_on:
       - postgres
 
@@ -59,6 +100,5 @@ volumes:
   pgadmin_data:
 
 networks:
-  proxy:
-    name: proxy
+  proxy-tier:
     external: true
