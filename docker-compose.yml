@@ -49,7 +49,11 @@ services:
 
 volumes:
   moodledata:
+    external: true
+    name: moodle_moodledata
   moodlefile:
+    external: true
+    name: moodle_moodlefile
 
 networks:
   proxy-tier:
